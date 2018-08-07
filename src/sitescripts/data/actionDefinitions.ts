@@ -41,13 +41,19 @@ function parseProperties(rawAction: any) : ActionDefinitionProperty[] {
         if (key === "verb") return null;
         let rawProp = rawAction.properties[key];
         console.log(rawAction.required, key)
-        return {
+        let prop : ActionDefinitionProperty= {
             id: key,
             title: rawProp.title,
             description: rawProp.description,
             type: rawProp.type,
-            isRequired: rawAction.required.indexOf(key) >= 0
-        } as ActionDefinitionProperty
+            isRequired: rawAction.required.indexOf(key) >= 0,
+        }
+        // if the rawProp has an 'enum' prop, it's a choice
+        if (rawProp.enum) {
+            prop.choices = rawProp.enum;
+            prop.type = "choice";
+        }
+        return prop;
     }).filter(p => p);
 }
 

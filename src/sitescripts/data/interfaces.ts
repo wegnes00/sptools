@@ -13,6 +13,7 @@ export interface ActionDefinitionProperty {
     title: string,
     description: string,
     type: string, //string, object, array, number
+    choices?: string[],
     isRequired: boolean,
 }
 
