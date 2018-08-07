@@ -1,30 +1,18 @@
 import rawSchema from "./schema.20180805";
 import { ActionDefinition, ActionDefinitionProperty } from "./interfaces";
 
-const ACTION_NAMES = [ 
-    "createSPList",
-    "createContentType",
-    "createSiteColumn",
-    "setSiteLogo",
-    "joinHubSite",
-    "addNavLink",
-    "removeNavLink",
-    "applyTheme",
-    "installSPFXSolution",
-    "associateExtension",
-    "triggerFlow",
-    "setRegionalSettings",
-    "addPrincipalToGroup",
-    "setSiteExternalSharingCapability",
-];
-
-function parseSchema(actionNames:string[]) : ActionDefinition[] {
-    return actionNames.map(rootActionName => parseAction(rawSchema.definitions[rootActionName]));
+function parseSchema() : ActionDefinition[] {
+    // Parse the list of available 'root' actions
+    return rawSchema.properties.actions.items.anyOf.map(i => i.$ref)
+        // Turn $refs into action names
+        .map(ref => ref.substr(ref.lastIndexOf("/") + 1))
+        // Get the rawAction from the schema then parse it
+        .map(actionName => parseAction(rawSchema.definitions[actionName]));
 }
 
 function parseAction(rawAction:any) : ActionDefinition {
     let actionDef : ActionDefinition = {
-        id: rawAction.properties.verb.enum[0],
+        verb: rawAction.properties.verb.enum[0],
         title: rawAction.title,
         type: rawAction.type,
         description: rawAction.description,
@@ -63,5 +51,5 @@ function parseProperties(rawAction: any) : ActionDefinitionProperty[] {
     }).filter(p => p);
 }
 
-const actionDefinitions = parseSchema(ACTION_NAMES);
+const actionDefinitions = parseSchema();
 export default actionDefinitions;

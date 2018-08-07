@@ -1,6 +1,6 @@
 
 export interface ActionDefinition {
-    id: string,
+    verb: string,
     title: string,
     description: string,
     properties: ActionDefinitionProperty[],
