@@ -1,11 +1,13 @@
-import { ActionDefinition } from "../data/interfaces";
+import { ActionDefinition, SiteScriptAction } from "../data/interfaces";
 import actionDefinitions from "../data/actionDefinitions";
 
 export interface ApplicationState {
-    actionDefinitions: ActionDefinition[]
+    actionDefinitions: ActionDefinition[],
+    actions: SiteScriptAction[],
 }
 
 let defaultState: ApplicationState = {
-    actionDefinitions: actionDefinitions
+    actionDefinitions: actionDefinitions,
+    actions:[]
 }
 export default defaultState;

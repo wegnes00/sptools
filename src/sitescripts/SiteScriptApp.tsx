@@ -5,7 +5,14 @@ import hub from "./hub/hub";
 export default class SiteScriptsApp extends React.PureComponent<SiteScriptAppProps, {}> {
     render() {
         return (
-            <div>SiteScriptsApp !
+            <div>
+                <h1>Coming Soon: A GUI to build SharePoint Site Script JSON</h1>
+                <p>
+                    
+                    <a target='_blank' href='https://react-beautiful-dnd.netlify.com/?selectedKind=complex%20vertical%20list&selectedStory=nested%20vertical%20lists&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybook%2Factions%2Factions-panel'>
+                        Drag and Dropabble Script Actions
+                    </a>
+                </p>
                 <pre>
                     {JSON.stringify(hub.state.actionDefinitions, null, 2)}
                 </pre>
