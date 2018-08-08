@@ -13,7 +13,7 @@ export default class Action extends React.PureComponent<ActionProps, {}> {
                         className={"action " + (snapshot.isDragging ? "dragging" : "")} 
                         {...provided.draggableProps} 
                         {...provided.dragHandleProps}>
-                        {action.verb} - {action.id}
+                        {action.id}
                     </div>
                 )}
             </Draggable>
