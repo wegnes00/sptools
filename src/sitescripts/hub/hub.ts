@@ -3,8 +3,8 @@ import defaultState, { ApplicationState } from "./defaultState";
 
 export interface FreezerObject {
     toJS?(): any,
-    set?(newState: any): void,
-    reset?(object:any): void,
+    set?(newState: any): { now:() => void},
+    reset?(object:any): { now:() => void},
 }
 
 declare global {

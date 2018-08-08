@@ -22,6 +22,6 @@ export interface ActionProperty extends ActionDefinitionProperty {
 }
 
 export interface SiteScriptAction extends ActionDefinition {
-    guid: string,
+    id: string,
     properties: ActionProperty[]
 }

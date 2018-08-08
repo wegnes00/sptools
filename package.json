@@ -17,8 +17,10 @@
   "author": "Andrew Petersen",
   "license": "MIT",
   "dependencies": {
+    "@types/react-beautiful-dnd": "^7.1.1",
     "hub-flow": "0.0.6",
     "react": "^16.4.2",
+    "react-beautiful-dnd": "^8.0.7",
     "react-dom": "^16.4.2"
   },
   "devDependencies": {

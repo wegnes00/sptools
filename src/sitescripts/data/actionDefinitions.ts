@@ -7,7 +7,15 @@ function parseSchema() : ActionDefinition[] {
         // Turn $refs into action names
         .map(ref => ref.substr(ref.lastIndexOf("/") + 1))
         // Get the rawAction from the schema then parse it
-        .map(actionName => parseAction(rawSchema.definitions[actionName]));
+        .map(actionName => parseAction(rawSchema.definitions[actionName]))
+        // Sort by title
+        .sort((a,b) => (
+            a.title === b.title
+                ? 0
+                : a.title < b.title
+                    ? -1
+                    : 1
+        ))
 }
 
 function parseAction(rawAction:any) : ActionDefinition {
