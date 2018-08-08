@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ActionDefinition } from '../../data/interfaces';
 import { Draggable } from 'react-beautiful-dnd';
-
+require("./ActionDefinitionItem.scss");
 export default class ActionDefinitionItem extends React.PureComponent<ActionDefinitionItemProps, {}> {
     render() {
         let { action, index } = this.props;
@@ -14,6 +14,7 @@ export default class ActionDefinitionItem extends React.PureComponent<ActionDefi
                         {...provided.draggableProps} 
                         {...provided.dragHandleProps}>
                         {action.title}
+                        <p className='description'>{action.description}</p>
                     </div>
                 )}
             </Draggable>
