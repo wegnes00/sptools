@@ -4,6 +4,7 @@ import { ActionDefinition, SiteScriptAction } from '../data/interfaces';
 import ActionDefinitions from './actionDefinitions/ActionDefinitions';
 import SiteScriptActions from './actions/SiteScriptActions';
 import hub from '../hub/hub';
+import RemoveZone from './removeZone/RemoveZone';
 require("./Workspace.scss");
 
 export default class Workspace extends React.PureComponent<WorkspaceProps, {}> {
@@ -24,6 +25,10 @@ export default class Workspace extends React.PureComponent<WorkspaceProps, {}> {
         else if (result.source.droppableId === "actions" && result.destination.droppableId === "actions") {
             hub.trigger("actions:reorder", result.draggableId, result.destination.index);
         }
+        // Remove
+        else if (result.source.droppableId === "actions" && result.destination.droppableId === "remove-zone") {
+            hub.trigger("actions:remove", result.draggableId);
+        }
         console.log("END", result);
     }
     render() {
@@ -35,6 +40,7 @@ export default class Workspace extends React.PureComponent<WorkspaceProps, {}> {
                 <div className='workspace'>
                     <ActionDefinitions actionDefinitions={this.props.actionDefinitions} />
                     <SiteScriptActions actions={this.props.actions} />
+                    <RemoveZone />
                 </div>
             </DragDropContext>
         );

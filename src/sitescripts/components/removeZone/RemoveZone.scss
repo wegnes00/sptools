@@ -1,0 +1,20 @@
+.remove-zone {
+    width: 80px;
+    min-width: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #d98282;
+    color: #fff;
+    margin-right: 10px;
+    transition: all .15s ease-out;
+    &.dragging {
+        background: #bc4545;
+        width: 100px;
+    }
+}
+.sideways {
+    transform: rotate(90deg);
+    width: 200px;
+}

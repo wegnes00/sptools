@@ -1,5 +1,11 @@
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    font-family: "Lucida Console", courier, sans-serif;;
+}
 .workspace {
     display:flex;
+    min-height: 100%;
 }
 
 .column {
@@ -20,7 +26,7 @@
         background: #fff;
         margin-bottom: 5px;
         &.dragging {
-            background: rgb(238, 149, 122)
+            background:#96d5e9
         }
     }
 }
