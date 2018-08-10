@@ -23,5 +23,11 @@ export interface ActionProperty extends ActionDefinitionProperty {
 
 export interface SiteScriptAction extends ActionDefinition {
     id: string,
-    properties: ActionProperty[]
+    properties: ActionProperty[],
+    subactions?: SiteScriptAction[],
+}
+
+export interface JsonSchema {
+    $schema:string,
+    actions: any[],
 }

@@ -1,6 +1,7 @@
 import hub from "./hub";
 import { SiteScriptAction } from "../data/interfaces";
-import { getActionId } from "../data/actionUtils";
+import { getActionId, actionsToJson, actionsFromJson } from "../data/actionUtils";
+import actionDefinitions from "../data/schemaParser";
 
 const handleAddAction = function(actionVerb, index) {
     let actionDefinition = hub.state.actionDefinitions.find(a => a.verb === actionVerb);
@@ -17,6 +18,7 @@ const handleReorderAction = function(actionId, newIndex) {
         let actions = hub.state.actions.filter(a => a.id !== actionId);
         actions.splice(newIndex, 0, target);
         hub.state.set( { actions }).now();
+        actionsToJson(hub.state.actions);
     }
 }
 
@@ -28,3 +30,32 @@ const handleRemoveAction = function(actionId) {
 hub.on("actions:add", handleAddAction);
 hub.on("actions:remove", handleRemoveAction);
 hub.on("actions:reorder", handleReorderAction);
+
+const json = JSON.stringify({
+    "$schema": "schema.json",
+    "actions": [
+        {
+            "verb": "applyTheme",
+            "themeName": "Fox Communities Theme"
+        }, 
+        {
+            "verb": "associateExtension",
+            "title": "TopNav",
+            "location": "ClientSideExtension.ApplicationCustomizer",
+            "clientSideComponentId": "c2de4f7d-5979-49dc-9b52-b81ccc1630b7",
+            "clientSideComponentProperties": "{ \"menuSiteUrl\":\"https://foxcu.sharepoint.com/sites/intranet\"}",
+            "scope": "Web"
+        }
+    ]
+})
+
+
+// // Testing out fromJson to toJSON
+// try {
+//     let data = actionsFromJson(json);
+//     console.log(data);
+//     let jsonStr = JSON.stringify(actionsToJson(data));
+//     console.log("Are Equal?:", jsonStr === json);
+// } catch (err) {
+//     console.log(err);
+// }

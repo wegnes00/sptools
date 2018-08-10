@@ -1,5 +1,5 @@
 import { ActionDefinition, SiteScriptAction } from "../data/interfaces";
-import actionDefinitions from "../data/actionDefinitions";
+import actionDefinitions from "../data/schemaParser";
 import { FreezerObject } from "./hub";
 
 export interface ApplicationState extends FreezerObject{
