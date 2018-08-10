@@ -1,6 +1,8 @@
 import { ActionDefinition, SiteScriptAction } from "../data/interfaces";
 import actionDefinitions from "../data/schemaParser";
 import { FreezerObject } from "./hub";
+import { actionsFromJson } from "../data/actionUtils";
+import actionsJson from "./actionsJson";
 
 export interface ApplicationState extends FreezerObject{
     actionDefinitions: ActionDefinition[],
@@ -9,6 +11,6 @@ export interface ApplicationState extends FreezerObject{
 
 let defaultState: ApplicationState = {
     actionDefinitions: actionDefinitions,
-    actions:[]
+    actions: actionsFromJson(actionsJson)
 }
 export default defaultState;

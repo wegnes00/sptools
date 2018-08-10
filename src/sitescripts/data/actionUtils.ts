@@ -2,9 +2,14 @@ import { ActionDefinition, SiteScriptAction, JsonSchema } from "./interfaces";
 import { validateActions } from "./validation";
 import actionDefinitions from "./schemaParser";
 
-export const  getActionId = function(actionDefinition:ActionDefinition, existingActions:SiteScriptAction[]) {
+export const  generateActionId = function(actionDefinition:ActionDefinition|SiteScriptAction, existingActions:SiteScriptAction[]) {
     let existingActionsWithSameVerb = existingActions.filter(a => a.verb === actionDefinition.verb);
-    return `${actionDefinition.verb}(${existingActionsWithSameVerb.length + 1})`
+    return `${actionDefinition.verb}:${Date.now()}`
+}
+export function createActionFromDefinition (actionDefinition:ActionDefinition) {
+    let newAction = JSON.parse(JSON.stringify(actionDefinition)) as SiteScriptAction
+    newAction.id = generateActionId(actionDefinition, hub.state.actions);
+    return newAction;
 }
 
 export function actionsFromJson(input: string|JsonSchema) : SiteScriptAction[] {
@@ -32,7 +37,7 @@ function _actionFromJson(rawAction:any) : SiteScriptAction {
     let definition = actionDefinitions.find(a => a.verb === rawAction.verb);
     if (!definition) return null;
     
-    var action = JSON.parse(JSON.stringify(definition)) as SiteScriptAction;
+    var action = createActionFromDefinition(definition);
     _copyProperties(rawAction, action);
     if (rawAction.subactions) {
         rawAction.subactions.forEach(rawSubaction => {

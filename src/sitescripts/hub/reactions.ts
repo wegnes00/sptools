@@ -1,13 +1,13 @@
 import hub from "./hub";
 import { SiteScriptAction } from "../data/interfaces";
-import { getActionId, actionsToJson, actionsFromJson } from "../data/actionUtils";
+import { generateActionId, actionsToJson, actionsFromJson } from "../data/actionUtils";
 import actionDefinitions from "../data/schemaParser";
 
 const handleAddAction = function(actionVerb, index) {
     let actionDefinition = hub.state.actionDefinitions.find(a => a.verb === actionVerb);
     if (actionDefinition) {
         let newAction = JSON.parse(JSON.stringify(actionDefinition)) as SiteScriptAction
-        newAction.id = getActionId(actionDefinition, hub.state.actions);
+        newAction.id = generateActionId(actionDefinition, hub.state.actions);
         hub.state.actions.splice(index, 0, newAction);
     }
 }
@@ -48,14 +48,3 @@ const json = JSON.stringify({
         }
     ]
 })
-
-
-// // Testing out fromJson to toJSON
-// try {
-//     let data = actionsFromJson(json);
-//     console.log(data);
-//     let jsonStr = JSON.stringify(actionsToJson(data));
-//     console.log("Are Equal?:", jsonStr === json);
-// } catch (err) {
-//     console.log(err);
-// }
