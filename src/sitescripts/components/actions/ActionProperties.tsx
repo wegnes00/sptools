@@ -9,10 +9,10 @@ export default class ActionProperties extends React.PureComponent<ActionProperti
         return (
             <div className='action-properties'>
                 {action.properties.filter(p => p.isRequired).map(p => (
-                    <ActionPropertyControl parentActionId={this.props.action.id} property={p} />
+                    <ActionPropertyControl key={p.id} parentActionId={this.props.action.id} property={p} />
                 ))}
                 {action.properties.filter(p => !p.isRequired).map(p => (
-                    <ActionPropertyControl parentActionId={this.props.action.id} property={p} />
+                    <ActionPropertyControl key={p.id} parentActionId={this.props.action.id} property={p} />
                 ))}
             </div>
         );
