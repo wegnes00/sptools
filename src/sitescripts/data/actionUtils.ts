@@ -2,22 +2,31 @@ import { ActionDefinition, SiteScriptAction, JsonSchema } from "./interfaces";
 import { validateActions } from "./validation";
 import actionDefinitions from "./schemaParser";
 
-export const  generateActionId = function(actionDefinition:ActionDefinition|SiteScriptAction, existingActions:SiteScriptAction[]) {
-    let existingActionsWithSameVerb = existingActions.filter(a => a.verb === actionDefinition.verb);
-    return `${actionDefinition.verb}:${Date.now()}`
-}
-export function createActionFromDefinition (actionDefinition:ActionDefinition) {
-    let newAction = JSON.parse(JSON.stringify(actionDefinition)) as SiteScriptAction
-    newAction.id = generateActionId(actionDefinition, hub.state.actions);
-    return newAction;
+
+export function resetActionIds(actions:SiteScriptAction[]) : SiteScriptAction[] {
+    return actions.map((a,i) => ({ ...a, ...{ id: `${i + 1}) ${a.verb}`}}));
 }
 
+export function createActionFromDefinition (actionDefinition:ActionDefinition) {
+    let newAction = JSON.parse(JSON.stringify(actionDefinition)) as SiteScriptAction
+    _setDefaultRequiredPropertyValues(newAction);
+    return newAction;
+}
+function _setDefaultRequiredPropertyValues(action:SiteScriptAction) {
+    action.properties.forEach(property => {
+        if (property.isRequired) {
+            property.value = "REQUIRED!"
+        }
+    })
+}
 export function actionsFromJson(input: string|JsonSchema) : SiteScriptAction[] {
     try {
+        if (!validateJSON(input)) return null;
         if (typeof input === "string") {
             input = JSON.parse(input) as JsonSchema;
         }
-        return input.actions.map(_actionFromJson);
+        if (!input.actions || !input.$schema) return null;
+        return resetActionIds(input.actions.map(_actionFromJson));
     } catch(err) {
         console.log("actionsFromJson", err);
         throw new Error("Unable to parse SiteScript JSON")
@@ -50,7 +59,16 @@ function _actionFromJson(rawAction:any) : SiteScriptAction {
     return action;
 }
 
-export const actionsToJson = function(actions:SiteScriptAction[]) : any {
+export const validateJSON = function(jsonString) {
+    try {
+        JSON.parse(jsonString);
+        return true;
+    } catch(err) {
+        return false
+    }
+}
+
+export const actionsToJson = function(actions:SiteScriptAction[]) : string {
     let validation = validateActions(actions);
     if (!validation.isValid) {
         console.log("Invalid Actions", validation.messages);
@@ -60,7 +78,7 @@ export const actionsToJson = function(actions:SiteScriptAction[]) : any {
         "$schema": "schema.json",
         "actions": actions.map(_actionToJson)
     }
-    return json;
+    return JSON.stringify(json, null, "\t");
 }
 
 const _actionToJson = function(action:SiteScriptAction) : any {

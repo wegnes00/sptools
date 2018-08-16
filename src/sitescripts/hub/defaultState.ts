@@ -7,10 +7,12 @@ import actionsJson from "./actionsJson";
 export interface ApplicationState extends FreezerObject{
     actionDefinitions: ActionDefinition[],
     actions: SiteScriptAction[],
+    json: string
 }
 
 let defaultState: ApplicationState = {
     actionDefinitions: actionDefinitions,
-    actions: actionsFromJson(actionsJson)
+    actions: actionsFromJson(actionsJson),
+    json: actionsJson
 }
 export default defaultState;

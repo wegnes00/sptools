@@ -10,6 +10,7 @@ export function validateActions(actions:SiteScriptAction[]) : { isValid:boolean,
 
 
 const _validateActions = function(actions:SiteScriptAction[]) : string[] {
+    return [];
     return actions.reduce((messages, action) => {
         return messages = [ ...messages, ..._validateAction(action)]
     }, [])

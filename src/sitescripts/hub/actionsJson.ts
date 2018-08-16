@@ -14,4 +14,4 @@ export default JSON.stringify({
             "scope": "Web"
         }
     ]
-});
+}, null, "\t");

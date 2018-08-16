@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import hub from "./hub/hub";
-import "./hub/reactions";
 import Workspace from './components/Workspace';
 
 (window as any).hub = hub;

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { SiteScriptAction } from '../../data/interfaces';
 import { Draggable } from 'react-beautiful-dnd';
+import ActionProperties from './ActionProperties';
 
 export default class Action extends React.PureComponent<ActionProps, {}> {
     render() {
@@ -13,7 +14,8 @@ export default class Action extends React.PureComponent<ActionProps, {}> {
                         className={"action " + (snapshot.isDragging ? "dragging" : "")} 
                         {...provided.draggableProps} 
                         {...provided.dragHandleProps}>
-                        {action.id}
+                        <h3>{action.id}</h3>
+                        <ActionProperties action={action} />
                     </div>
                 )}
             </Draggable>
