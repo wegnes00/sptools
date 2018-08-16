@@ -8,6 +8,7 @@ export function resetActionIds(actions:SiteScriptAction[]) : SiteScriptAction[] 
 }
 
 export function createActionFromDefinition (actionDefinition:ActionDefinition) {
+    console.log(actionDefinition);
     let newAction = JSON.parse(JSON.stringify(actionDefinition)) as SiteScriptAction
     _setDefaultRequiredPropertyValues(newAction);
     return newAction;
@@ -76,7 +77,7 @@ export const actionsToJson = function(actions:SiteScriptAction[]) : string {
     }
     let json = {
         "$schema": "schema.json",
-        "actions": actions.map(_actionToJson)
+        "actions": actions.map(_actionToJson).filter(a => a)
     }
     return JSON.stringify(json, null, "\t");
 }
@@ -85,13 +86,27 @@ const _actionToJson = function(action:SiteScriptAction) : any {
     let jsonAction : any = action.properties.reduce((obj, property) => {
         if (property.value !== undefined) {
             obj[property.id] = property.value;
+            if (property.type === "boolean") obj[property.id] = property.value === "true"
+            else if (property.type === "number") {
+                try {
+                    obj[property.id] = parseInt(property.value, 10);
+                } catch (err) {}
+            }
+            else if (property.type === "object") {
+                try {
+                    console.log(property.value)
+                    obj[property.id] = JSON.parse(property.value);
+                } catch(err) {
+                    obj[property.id] = { "ERROR": "Invalid JSON object" }
+                }
+            } 
         } 
         return obj;
     }, { verb: action.verb })
 
     if (action.subactions) {
-        jsonAction.subactions = action.subactions.map(_actionToJson);
+        jsonAction.subactions = action.subactions.map(_actionToJson).filter(a => a);
     }
-    return jsonAction;
+    return Object.keys(jsonAction).length > 1 ? jsonAction : null;
 }
 
