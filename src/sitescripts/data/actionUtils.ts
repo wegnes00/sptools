@@ -15,7 +15,9 @@ export function createActionFromDefinition (actionDefinition:ActionDefinition) {
 function _setDefaultRequiredPropertyValues(action:SiteScriptAction) {
     action.properties.forEach(property => {
         if (property.isRequired) {
-            property.value = "REQUIRED!"
+            if (property.type === "boolean") property.value = false;
+            else if (property.type === "number") property.value = 666;
+            else property.value = "REQUIRED!"
         }
     })
 }
@@ -85,7 +87,10 @@ const _actionToJson = function(action:SiteScriptAction) : any {
     let jsonAction : any = action.properties.reduce((obj, property) => {
         if (property.value !== undefined) {
             obj[property.id] = property.value;
-            if (property.type === "boolean") obj[property.id] = property.value === "true"
+            if (property.type === "boolean") {
+                console.log("bool", property.value);
+                obj[property.id] = property.value ? true : false
+            }
             else if (property.type === "number") {
                 try {
                     obj[property.id] = parseInt(property.value, 10);
