@@ -2,7 +2,7 @@ import * as React from 'react';
 import { SiteScriptAction } from '../../data/interfaces';
 import { DroppableStateSnapshot, Droppable } from 'react-beautiful-dnd';
 import Action from './Action';
-
+import "./SiteScriptActions.scss";
 const getClassNames = (snapshot:DroppableStateSnapshot) => {
     return [
         "actions",

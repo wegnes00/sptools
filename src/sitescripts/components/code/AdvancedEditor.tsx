@@ -8,7 +8,9 @@ export default class AdvancedEditor extends React.PureComponent<AdvancedEditorPr
     }
     render() {
         return (
-            <Code value={this.props.json} onChange={this.onChange} language="javascript" />
+            <div style={{ width: "100%" }}>
+                <Code value={this.props.json} onChange={this.onChange} language="javascript" />
+            </div>
         );
     }
 }

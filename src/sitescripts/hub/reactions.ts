@@ -12,7 +12,7 @@ const handleAddAction = function(actionVerb, index) {
             ...hub.state.actions.slice(index)
         ])
         hub.state.set( { actions, json: actionsToJson(actions) });
-
+        hub.cacheState();
     }
 }
 
@@ -23,6 +23,7 @@ const handleReorderAction = function(actionId, newIndex) {
         actions.splice(newIndex, 0, target);
         actions = resetActionIds(actions);
         hub.state.set( { actions, json: actionsToJson(actions) }).now();
+        hub.cacheState();
     }
 }
 
@@ -30,6 +31,7 @@ const handleRemoveAction = function(actionId) {
     let actions = hub.state.actions.filter(a => a.id !== actionId);
     actions = resetActionIds(actions);
     hub.state.set( { actions, json: actionsToJson(actions) }).now();
+    hub.cacheState();
 }
 
 const handleJSONUpdate = function(json) {
@@ -39,10 +41,23 @@ const handleJSONUpdate = function(json) {
         let actions = actionsFromJson(json);
         if (actions) {
             hub.state.set({ actions });
+            hub.cacheState();
         }
     }
 } 
+const handleUpdateProperty = function(actionId, propertyId, value) {
+    let targetAction = hub.state.actions.find(a => a.id === actionId);
+    if (targetAction) {
+        let targetProperty = targetAction.properties.find(p => p.id === propertyId);
+        if (targetProperty) {
+            targetProperty.set({ value }).now();
+            hub.state.set({ json: actionsToJson(hub.state.actions) });
+            hub.cacheState();
+        }
+    }
+}
 
+hub.on('actions:updateProperty', handleUpdateProperty);
 hub.on("actions:add", handleAddAction);
 hub.on("actions:remove", handleRemoveAction);
 hub.on("actions:reorder", handleReorderAction);

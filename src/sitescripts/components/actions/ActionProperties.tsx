@@ -1,24 +1,18 @@
 import * as React from 'react';
 import { SiteScriptAction } from '../../data/interfaces';
 import "./ActionProperties.scss";
+import ActionPropertyControl from './ActionPropertyControl';
 
 export default class ActionProperties extends React.PureComponent<ActionPropertiesProps, {}> {
-    parseProperties = () : { label:string, value:any }[] => {
-        return this.props.action.properties.map(property => {
-            if (!property.isRequired && !property.value) return null;
-            return {
-                label: property.id,
-                value: (property.isRequired && !property.value)
-                    ? "REQUIRED"
-                    : property.value
-            }
-        }).filter(p => p);
-    }
     render() {
+        let { action } = this.props;
         return (
             <div className='action-properties'>
-                {this.parseProperties().map(keyvalue => (
-                    <div key={keyvalue.label}><span>{keyvalue.label}:{keyvalue.value}</span></div>
+                {action.properties.filter(p => p.isRequired).map(p => (
+                    <ActionPropertyControl parentActionId={this.props.action.id} property={p} />
+                ))}
+                {action.properties.filter(p => !p.isRequired).map(p => (
+                    <ActionPropertyControl parentActionId={this.props.action.id} property={p} />
                 ))}
             </div>
         );
