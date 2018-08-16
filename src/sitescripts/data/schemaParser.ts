@@ -47,7 +47,7 @@ function parseSubactions(rawAction:any) : ActionDefinition[] {
 function parseProperties(rawAction: any) : ActionDefinitionProperty[] {
     if (!rawAction.properties) return [];
     return Object.keys(rawAction.properties).map(key => {
-        if (key === "verb") return null;
+        if (key === "verb" || key === "subactions") return null;
         let rawProp = rawAction.properties[key];
         let prop : ActionDefinitionProperty= {
             id: key,
