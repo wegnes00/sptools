@@ -19,4 +19,4 @@ export interface Hub {
     state: ApplicationState
 }
 
-export default createHub(defaultState) as Hub;
+export default createHub(defaultState, { cacheKey: "sptools-sitescriptmaker"}) as Hub;
