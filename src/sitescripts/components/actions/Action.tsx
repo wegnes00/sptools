@@ -2,8 +2,12 @@ import * as React from 'react';
 import { SiteScriptAction } from '../../data/interfaces';
 import { Draggable } from 'react-beautiful-dnd';
 import ActionProperties from './ActionProperties';
-
+import "./Action.scss";
+import hub from '../../hub/hub';
 export default class Action extends React.PureComponent<ActionProps, {}> {
+    onRemove = () => {
+        hub.trigger("actions:remove", this.props.action.id);
+    }
     render() {
         let { action, index } = this.props;
         return (
@@ -16,6 +20,7 @@ export default class Action extends React.PureComponent<ActionProps, {}> {
                         {...provided.dragHandleProps}>
                         <h3>{action.id}</h3>
                         <ActionProperties action={action} />
+                        <div className='remove-action' onClick={this.onRemove}>X</div>
                     </div>
                 )}
             </Draggable>

@@ -40,7 +40,7 @@ export default class Workspace extends React.PureComponent<WorkspaceProps, {}> {
                 <div className='workspace'>
                     <ActionDefinitions actionDefinitions={this.props.actionDefinitions} />
                     <SiteScriptActions actions={this.props.actions} />
-                    <RemoveZone />
+                    {/* <RemoveZone /> */}
                     <AdvancedEditor json={this.props.json} />
                 </div>
             </DragDropContext>
