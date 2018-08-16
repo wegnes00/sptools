@@ -8,7 +8,6 @@ export function resetActionIds(actions:SiteScriptAction[]) : SiteScriptAction[] 
 }
 
 export function createActionFromDefinition (actionDefinition:ActionDefinition) {
-    console.log(actionDefinition);
     let newAction = JSON.parse(JSON.stringify(actionDefinition)) as SiteScriptAction
     _setDefaultRequiredPropertyValues(newAction);
     return newAction;

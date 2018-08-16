@@ -14,10 +14,18 @@ export default class Code extends React.Component<CodeProps, {}> {
         setTimeout(() => this.updateCode(this.props.value), 1);
     }
     updateCode = (newValue) => {
-        this.editor.getCodeMirror().setValue(newValue);
+        if (this.editor && this.editor.getCodeMirror) {
+            this.editor.getCodeMirror().setValue(newValue);
+        }
+    }
+    getCode = () => {
+        if (this.editor && this.editor.getCodeMirror) {
+            return this.editor.getCodeMirror().getValue();
+        }
+        return "";
     }
     shouldComponentUpdate(newProps) {
-        if (newProps.value !== this.editor.getCodeMirror().getValue()) {
+        if (newProps.value !== this.getCode()) {
             this.updateCode(newProps.value);
         }
         return false;
