@@ -816,14 +816,14 @@ export default {
       },
       "required": ["verb", "timeZone", "locale", "sortOrder", "hourFormat"]
     },
-    "addPrincipalToGroup": {
+    "addPrincipalToSPGroup": {
       "type": "object",
       "title": "Add Principal to Group",
       "description":
-        "Use the addPrincipalToGroup action to manage addition of users and groups to select default SharePoint groups. This action can be used for licensed users, security groups, and Office 365 Groups",
+        "Use the addPrincipalToSPGroup action to manage addition of users and groups to select default SharePoint groups. This action can be used for licensed users, security groups, and Office 365 Groups",
       "properties": {
         "verb": {
-          "enum": ["addPrincipalToGroup"]
+          "enum": ["addPrincipalToSPGroup"]
         },
         "principal": {
           "title": "Principal",
@@ -919,7 +919,7 @@ export default {
           },
           {
             "type": "object",
-            "$ref": "#/definitions/addPrincipalToGroup"
+            "$ref": "#/definitions/addPrincipalToSPGroup"
           },
           {
             "type": "object",
