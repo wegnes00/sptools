@@ -1,0 +1,11 @@
+.property-control {
+    margin-top: 10px;
+
+    input, select {
+        width: 100%;
+        margin: 2px 0;
+    }
+    input[type='checkbox']{
+        width: inherit;
+    }
+}
