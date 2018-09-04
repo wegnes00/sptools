@@ -11,3 +11,8 @@ export interface JsonSchema {
     isInverted: boolean,
     theme: string,
 }
+
+export interface Pallette {
+    name:string,
+    theme: Theme, 
+}

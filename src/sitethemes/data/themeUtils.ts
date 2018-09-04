@@ -1,6 +1,6 @@
-import { JsonSchema, Theme } from './interfaces';
+import { JsonSchema, Theme, Pallette } from './interfaces';
 
-export function palletteFromJson(input: string|JsonSchema) : Theme {
+export function palletteFromJson(input: string|JsonSchema) : Pallette {
     try {
         console.log(input);
         if (!validateJSON(input)) return null;
@@ -8,8 +8,10 @@ export function palletteFromJson(input: string|JsonSchema) : Theme {
             input = JSON.parse(input) as JsonSchema;
         }
         if (!input.name || !input.theme) return null;
-        // console.log(input.theme);
-        return _palletteFromJson(input.theme);
+        return {
+            name: input.name,
+            theme: _palletteFromJson(input.theme)
+        };
     } catch(err) {
         // console.log("palletteFromJson", err);
         throw new Error("Unable to parse Site Theme JSON")

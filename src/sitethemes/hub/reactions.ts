@@ -15,10 +15,10 @@ let handleThemeNameUpdate = function(name) {
 const handleJSONUpdate = function(json) {
     if (json) {
         hub.state.set({ json }).now();
-        let theme = palletteFromJson(json);
+        let themeJson = palletteFromJson(json);
         //console.log("Pallette Form JSON: ", theme);
-        if (theme) {
-            hub.state.set({ theme });
+        if (themeJson) {
+            hub.state.set({ name: themeJson.name, theme: themeJson.theme });
             hub.cacheState();
         }
     }
