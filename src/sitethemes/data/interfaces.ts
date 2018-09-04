@@ -7,5 +7,7 @@ export interface Theme {
 }
 
 export interface JsonSchema {
-    $schema:string,
+    name:string,
+    isInverted: boolean,
+    theme: string,
 }
