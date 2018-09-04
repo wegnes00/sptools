@@ -1,4 +1,5 @@
 import hub from "./hub";
+import { palletteFromJson } from "../data/themeUtils";
 
 let handleThemeColorUpdate = function(newThemeValue) {
     hub.state.theme.set({ [newThemeValue.themeKey]: newThemeValue.themeValue }).now();
@@ -14,7 +15,12 @@ let handleThemeNameUpdate = function(name) {
 const handleJSONUpdate = function(json) {
     if (json) {
         hub.state.set({ json }).now();
-        hub.cacheState();
+        let theme = palletteFromJson(json);
+        //console.log("Pallette Form JSON: ", theme);
+        if (theme) {
+            hub.state.set({ theme });
+            hub.cacheState();
+        }
     }
 }
 
