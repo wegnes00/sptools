@@ -1,0 +1,14 @@
+.workspace {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .theme-pallette {
+        padding: 10px;
+        display: flex;
+
+        > div {
+            padding: 10px;
+        }
+    }
+}

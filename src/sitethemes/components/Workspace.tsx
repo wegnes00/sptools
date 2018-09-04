@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Theme } from '../data/interfaces';
-import hub from '../hub/hub';
 import AdvancedEditor from './code/AdvancedEditor';
 import ThemePallette from './theme/ThemePallette';
+require("./Workspace.scss");
 
 export default class Workspace extends React.PureComponent<WorkspaceProps, {}> {
     render() {
