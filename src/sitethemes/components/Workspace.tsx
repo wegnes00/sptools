@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { Theme } from '../data/interfaces';
+import { Pallette } from '../data/interfaces';
 import AdvancedEditor from './code/AdvancedEditor';
-import ThemePallette from './theme/ThemePallette';
+import Header from './WorkspaceHeader';
 require("./Workspace.scss");
 
 export default class Workspace extends React.PureComponent<WorkspaceProps, {}> {
     render() {
         return (
             <div className='workspace'>
-                <ThemePallette name={ this.props.name } theme={ this.props.theme } />
+                <Header pallette={ this.props.pallette } />
                 <AdvancedEditor json={ this.props.json } />
             </div>
         );
@@ -16,7 +16,6 @@ export default class Workspace extends React.PureComponent<WorkspaceProps, {}> {
 }
 
 export interface WorkspaceProps {
-    name: string,
-    theme: Theme,
+    pallette: Pallette,
     json: string,
 }
