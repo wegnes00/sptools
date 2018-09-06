@@ -27,6 +27,31 @@ function _palletteFromJson(rawTheme:any) : Theme {
     }
 }
 
+export function palletteToJson(input: Pallette, json: string|JsonSchema) : string {
+    try {
+        console.log(input);
+        if (typeof json === "string") {
+            json = JSON.parse(json) as JsonSchema;
+        }
+        if (!json.name || !json.theme) return null;
+        json.name = input.name;
+        json.theme = { ...json.theme as any, ..._palletteToJson(input.theme) }
+        return JSON.stringify(json, null, "\t");
+    } catch(err) {
+        // console.log("palletteFromJson", err);
+        throw new Error("Unable to parse pallette to JSON.")
+    }
+}
+
+function _palletteToJson(palletteTheme:Theme) : any {
+    return {
+        themePrimary: palletteTheme.primary,
+        themeSecondary: palletteTheme.secondary,
+        themeTertiary: palletteTheme.tertiary,
+        accent: palletteTheme.accent,
+    }
+}
+
 export const validateJSON = function(jsonString) {
     try {
         JSON.parse(jsonString);
@@ -35,47 +60,3 @@ export const validateJSON = function(jsonString) {
         return false
     }
 }
-
-// export const actionsToJson = function(actions:SiteScriptAction[]) : string {
-//     let validation = validateActions(actions);
-//     if (!validation.isValid) {
-//         console.log("Invalid Actions", validation.messages);
-//         throw new Error("The Actions are not valid: " + validation.messages.join(", "));
-//     }
-//     let json = {
-//         "$schema": "schema.json",
-//         "actions": actions.map(_actionToJson).filter(a => a)
-//     }
-//     return JSON.stringify(json, null, "\t");
-// }
-
-// const _actionToJson = function(action:SiteScriptAction) : any {
-//     let jsonAction : any = action.properties.reduce((obj, property) => {
-//         if (property.value !== undefined) {
-//             obj[property.id] = property.value;
-//             if (property.type === "boolean") {
-//                 console.log("bool", property.value);
-//                 obj[property.id] = property.value ? true : false
-//             }
-//             else if (property.type === "number") {
-//                 try {
-//                     obj[property.id] = parseInt(property.value, 10);
-//                 } catch (err) {}
-//             }
-//             else if (property.type === "object") {
-//                 try {
-//                     console.log(property.value)
-//                     obj[property.id] = JSON.parse(property.value);
-//                 } catch(err) {
-//                     obj[property.id] = { "ERROR": "Invalid JSON object" }
-//                 }
-//             } 
-//         } 
-//         return obj;
-//     }, { verb: action.verb })
-
-//     if (action.subactions) {
-//         jsonAction.subactions = action.subactions.map(_actionToJson).filter(a => a);
-//     }
-//     return Object.keys(jsonAction).length > 1 ? jsonAction : null;
-// }

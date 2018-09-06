@@ -1,29 +1,40 @@
 import hub from "./hub";
-import { palletteFromJson } from "../data/themeUtils";
+import { downloadFile, getDateString } from "../../utils/utils";
+import { palletteFromJson, palletteToJson } from "../data/themeUtils";
+import { JsonSchema } from "../../sitescripts/data/interfaces";
 
 let handleThemeColorUpdate = function(newThemeValue) {
-    hub.state.theme.set({ [newThemeValue.themeKey]: newThemeValue.themeValue }).now();
+    hub.state.pallette.theme.set({ [newThemeValue.themeKey]: newThemeValue.themeValue }).now();
+    let json = palletteToJson(hub.state.pallette, hub.state.json);
+    hub.state.set({ json });
     hub.cacheState();  
 }
 
 let handleThemeNameUpdate = function(name) {
-    name.trim();
-    hub.state.set({ name }).now();
+    hub.state.pallette.set({ name }).now();
+    let json = palletteToJson(hub.state.pallette, hub.state.json);
+    hub.state.set({ json });
     hub.cacheState();  
 }
 
-const handleJSONUpdate = function(json) {
+let handleJSONUpdate = function(json) {
     if (json) {
         hub.state.set({ json }).now();
         let themeJson = palletteFromJson(json);
-        //console.log("Pallette Form JSON: ", theme);
         if (themeJson) {
-            hub.state.set({ name: themeJson.name, theme: themeJson.theme });
+            hub.state.pallette.set({ name: themeJson.name, theme: themeJson.theme });
             hub.cacheState();
         }
     }
 }
 
+let handleJSONDownload = function(type) {
+	if (type === "json") {
+		downloadFile(`${hub.state.pallette.name}_${getDateString()}.json`, hub.state.json);
+	}
+}
+
 hub.on("json:update", handleJSONUpdate);
+hub.on("json:download", handleJSONDownload);
 hub.on("theme:colorUpdate", handleThemeColorUpdate);
 hub.on("theme:nameUpdate", handleThemeNameUpdate);

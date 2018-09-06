@@ -6,13 +6,13 @@ export interface Theme {
     accent: string
 }
 
+export interface Pallette {
+    name:string,
+    theme: Theme, 
+}
+
 export interface JsonSchema {
     name:string,
     isInverted: boolean,
     theme: string,
-}
-
-export interface Pallette {
-    name:string,
-    theme: Theme, 
 }
